@@ -177,9 +177,9 @@ def alerts_absent(data):
 def main():
     fields = {
         "admin_api_key": {"required": True, "type": "str"},
-        "name": {"required": False, "type": "str" },
+        "name": {"required": True, "type": "str" },
         "type": {
-            "required": True,
+            "required": False,
             "type": "str",
             "choices": ["infra_process_running", "infra_metric", "infra_host_not_reporting"]
         },
@@ -190,7 +190,7 @@ def main():
         },
         "where_clause": {"required": False, "type": "str"},
         "process_where_clause": {"required": False, "type": "str"},
-        "alerts_policy_name": {"required": True, "type": "str"},
+        "alerts_policy_name": {"required": False, "type": "str"},
         "critical_threshold": {"required": False, "type": "dict"},
         "warning_threshold": {"required": False, "type": "dict"},
         "comparison": {
