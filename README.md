@@ -9,7 +9,7 @@ https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/infrastru
 |-----------|----------|---------|---------|----------|
 |admin_api_key|yes| | | |
 |alerts_policy_name|no|||name of the alert policy to attach the condition to.|
-|comparison|no| |<ul><li>above</li><li>below</li></ul><ul><li>equal</li></ul>|The value used to define the threshold. Applies to infra_metric and infra_process_running.|
+|comparison|no| |<ul><li>above</li><li>below</li><li>equal</li></ul>|The value used to define the threshold. Applies to infra_metric and infra_process_running.|
 |critical_threshold|no| | |defined as a dictionary with values for `duration_minutes`, `value`, and `time_function` depending on type. |
 |enabled|no|True|<ul><li>True</li><li>False</li></ul>|Whether the condition is turned on or off.|
 |event_type|no|||Applies to infra_metric. The metric event; for example, system metrics, process metrics, storage metrics, or network metrics. This automatically populates for Infrastructure Integrations; for example, StorageSample.|
