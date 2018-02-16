@@ -117,7 +117,7 @@ def update_alert(data):
 
     del data['admin_api_key']
 
-    url = "{}{}" . format(infra_api_url, '/v2/alerts/conditions')
+    url = "{}{}{}" . format(infra_api_url, '/v2/alerts/conditions/', str(condition_id))
 
     headers = {
         "X-Api-Key": admin_api_key,
@@ -126,7 +126,7 @@ def update_alert(data):
 
     post_data = {}
     post_data["data"] = data
-    result = requests.put(url + '/' + str(condition_id), json.dumps(post_data), headers=headers)
+    result = requests.put(url, json.dumps(post_data), headers=headers)
     if result.status_code == 201:
         return False, True, result.json()
     else:
@@ -180,13 +180,13 @@ def alerts_absent(data):
         meta = {"response": "condition id not found"}
         return False, False, meta
 
-    url = "{}{}" . format(infra_api_url, '/v2/alerts/conditions')
+    url = "{}{}{}" . format(infra_api_url, '/v2/alerts/conditions/', str(condition_id))
 
     headers = {
         "X-Api-Key": "{}" . format(admin_api_key)
     }
 
-    result = requests.delete(url + '/' + str(condition_id), headers=headers)
+    result = requests.delete(url, headers=headers)
     if result.status_code == 204:
         meta = {"status": result.status_code, "response": "Condition deleted"}
         return False, True, meta
