@@ -113,7 +113,7 @@ def update_alert(data):
     admin_api_key = data['admin_api_key']
     condition_name = data['name']
 
-    str(condition_id) = get_condition_id(condition_name, admin_api_key)
+    condition_id = str(get_condition_id(condition_name, admin_api_key))
 
     del data['admin_api_key']
 
@@ -175,7 +175,7 @@ def alerts_absent(data):
     admin_api_key = data['admin_api_key']
     condition_name = data['name']
 
-    str(condition_id) = get_condition_id(condition_name, admin_api_key)
+    condition_id = str(get_condition_id(condition_name, admin_api_key))
     if condition_id == "None":
         meta = {"response": "condition id not found"}
         return False, False, meta
