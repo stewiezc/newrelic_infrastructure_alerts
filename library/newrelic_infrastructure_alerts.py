@@ -127,7 +127,7 @@ def update_alert(data):
     post_data = {}
     post_data["data"] = data
     result = requests.put(url, json.dumps(post_data), headers=headers)
-    if result.status_code == 201:
+    if result.status_code == 200:
         return False, True, result.json()
     else:
         return True, False, result.json()
