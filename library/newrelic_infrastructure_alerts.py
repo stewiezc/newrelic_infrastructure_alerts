@@ -109,28 +109,29 @@ def create_alert(data):
     else:
         return True, False, result.json()
 
-def delete_alert(data):
+def update_alert(data):
     admin_api_key = data['admin_api_key']
     condition_name = data['name']
 
-    condition_id = get_condition_id(condition_name, admin_api_key)
-    if condition_id == "None":
-        meta = {"response": "condition id not found"}
-        return False, False, meta
+    condition_id = str(get_condition_id(condition_name, admin_api_key))
 
-    url = "{}{}" . format(infra_api_url, '/v2/alerts/conditions')
+    del data['admin_api_key']
+
+    url = "{}{}{}" . format(infra_api_url, '/v2/alerts/conditions/', condition_id)
 
     headers = {
-        "X-Api-Key": "{}" . format(admin_api_key)
+        "X-Api-Key": admin_api_key,
+        "Content-Type": "application/json"
     }
 
-    result = requests.delete(url + '/' + str(condition_id), headers=headers)
-    if result.status_code == 204:
-        meta = {"status": result.status_code, "response": "Condition deleted"}
-        return False, True, meta
+    post_data = {}
+    post_data["data"] = data
+    result = requests.put(url, json.dumps(post_data), headers=headers)
+    if result.status_code == 200:
+        return False, True, result.json()
     else:
         return True, False, result.json()
-
+    
 def alerts_present(data):
     admin_api_key = data['admin_api_key']
     condition_name = data['name']
@@ -158,8 +159,7 @@ def alerts_present(data):
                     if data[arg] == alert[arg]:
                         continue
                     else:
-                        delete_alert(data)
-                        return create_alert(data)
+                        return update_alert(data)
                 else:
                     continue
             return False, False, alert
@@ -172,7 +172,26 @@ def alerts_present(data):
     return True, False, meta
 
 def alerts_absent(data):
-    return delete_alert(data)
+    admin_api_key = data['admin_api_key']
+    condition_name = data['name']
+
+    condition_id = str(get_condition_id(condition_name, admin_api_key))
+    if condition_id == "None":
+        meta = {"response": "condition id not found"}
+        return False, False, meta
+
+    url = "{}{}{}" . format(infra_api_url, '/v2/alerts/conditions/', condition_id)
+
+    headers = {
+        "X-Api-Key": "{}" . format(admin_api_key)
+    }
+
+    result = requests.delete(url, headers=headers)
+    if result.status_code == 204:
+        meta = {"status": result.status_code, "response": "Condition deleted"}
+        return False, True, meta
+    else:
+        return True, False, result.json()
 
 def main():
     fields = {
